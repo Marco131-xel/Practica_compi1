@@ -1,5 +1,15 @@
 main/Interfaz$1.class
 main/Interfaz.class
-Analizadores/Generador.class
+Analizadores/parser.class
 main/Interfaz$2.class
+figuras/Circulo.class
+figuras/Formas.class
+Analizadores/scanner.class
+main/Interfaz$3.class
+Analizadores/Generador.class
+excepciones/Errores.class
+Analizadores/sym.class
+Analizadores/parser$CUP$parser$actions.class
+figuras/Test.class
+figuras/Token.class
 archivos/GestionArchivos.class

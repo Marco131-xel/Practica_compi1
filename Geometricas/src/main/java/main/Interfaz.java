@@ -1,7 +1,11 @@
 package main;
 
+import Analizadores.*;
 import archivos.*;
+import figuras.Formas;
 import java.io.File;
+import java.io.Reader;
+import java.io.StringReader;
 import javax.swing.*;
 
 public class Interfaz extends javax.swing.JFrame {
@@ -9,6 +13,8 @@ public class Interfaz extends javax.swing.JFrame {
     JFileChooser seleccionado = new JFileChooser();
     File archivo;
     GestionArchivos gestion = new GestionArchivos();
+    Formas objeto = new Formas();
+    JFrame ventana = new JFrame("Formas Básicas");
 
     /**
      * Creates new form Interfaz
@@ -27,10 +33,10 @@ public class Interfaz extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
+        BT_abrir = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        BT_compilar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         text_editor = new javax.swing.JTextPane();
 
@@ -38,10 +44,10 @@ public class Interfaz extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(0, 0, 0));
 
-        jButton1.setText("Abrir");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        BT_abrir.setText("Abrir");
+        BT_abrir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                BT_abrirActionPerformed(evt);
             }
         });
 
@@ -49,7 +55,12 @@ public class Interfaz extends javax.swing.JFrame {
 
         jButton3.setText("Reportes");
 
-        jButton4.setText("Compilar");
+        BT_compilar.setText("Compilar");
+        BT_compilar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BT_compilarActionPerformed(evt);
+            }
+        });
 
         text_editor.setBackground(new java.awt.Color(51, 51, 51));
         text_editor.setFont(new java.awt.Font("FiraCode Nerd Font", 0, 18)); // NOI18N
@@ -65,11 +76,11 @@ public class Interfaz extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 963, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton4)
+                    .addComponent(BT_compilar)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                         .addComponent(jButton3)
                         .addComponent(jButton2)
-                        .addComponent(jButton1)))
+                        .addComponent(BT_abrir)))
                 .addGap(46, 46, 46))
         );
         jPanel1Layout.setVerticalGroup(
@@ -78,13 +89,13 @@ public class Interfaz extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(45, 45, 45)
-                        .addComponent(jButton1)
+                        .addComponent(BT_abrir)
                         .addGap(45, 45, 45)
                         .addComponent(jButton2)
                         .addGap(37, 37, 37)
                         .addComponent(jButton3)
                         .addGap(45, 45, 45)
-                        .addComponent(jButton4))
+                        .addComponent(BT_compilar))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(54, 54, 54)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 425, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -105,7 +116,7 @@ public class Interfaz extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void BT_abrirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_abrirActionPerformed
         // TODO add your handling code here:
         if (seleccionado.showDialog(null, "Abrir Archivo") == JFileChooser.APPROVE_OPTION) {
             archivo = seleccionado.getSelectedFile();
@@ -118,7 +129,32 @@ public class Interfaz extends javax.swing.JFrame {
                 }
             }
         }
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_BT_abrirActionPerformed
+
+    private void BT_compilarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_compilarActionPerformed
+        // TODO add your handling code here:
+        try {
+            String codigo = text_editor.getText();
+            if (codigo.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "No hay código para analizar.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            Reader reader = new StringReader(codigo);
+            scanner lexer = new scanner(reader);
+            parser parser = new parser(lexer);
+
+            parser.parse();
+            ventana.add(objeto);
+            ventana.setSize(700, 700);
+            ventana.setLocationRelativeTo(null);
+            ventana.setVisible(true);
+            ventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Error en el analisis");
+        }
+    }//GEN-LAST:event_BT_compilarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -156,10 +192,10 @@ public class Interfaz extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton BT_abrir;
+    private javax.swing.JButton BT_compilar;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextPane text_editor;

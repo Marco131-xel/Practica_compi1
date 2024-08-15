@@ -1,0 +1,79 @@
+package Analizadores;
+
+// IMPORTACIONES
+import java_cup.runtime.Symbol;
+import figuras.*;
+
+// PARSER
+parser code
+{:
+    scanner s;
+    public parser(scanner s) {
+        this.s = s;
+    }
+    
+    public void syntax_error(Symbol s) {
+        System.out.println("Error Sintactico en la linea " +
+        (s.left) + " y columna " + (s.right) +
+        ". No se esperaba el componente: " + (s.value) + ".");
+    }
+
+    public void unrecovered_syntax_error(Symbol s) {
+        System.out.println("Error Sintactico no recuperable en la linea " +
+        (s.left) + " y columna " + (s.right) +
+        ". No se esperaba el componente: " + (s.value) + ".");
+    }
+:}
+
+action code
+{:
+:}
+
+// TERMINALES
+terminal GRAFICAR, SIDE, CURVA, ANIMAR, OBJETO, ANTERIOR;
+terminal CIRCULO, CUADRADO, RECTANGULO, LINEA, POLIGONO;
+terminal PAR1, PAR2, COMA, SUMA, RESTA, MULTI, DIVISION;
+terminal String ID;
+terminal Integer NUM;
+terminal String COLOR;
+
+// NO TERMINALES
+nonterminal INICIO;
+nonterminal SHAPE, ANIME;
+nonterminal CIRCLE, RECTANGLE, SQUARE, LINE, POLYGON;
+
+
+// PRODUCCIONES Y GRAMATICAS
+start with INICIO;
+
+INICIO ::= SHAPE
+         | ANIME;
+
+SHAPE ::= CIRCLE
+         |RECTANGLE
+         |SQUARE
+         |LINE
+         |POLYGON;
+
+CIRCLE ::= GRAFICAR CIRCULO PAR1 ID:a COMA NUM:b COMA NUM:c COMA NUM:d COMA COLOR:e PAR2
+                    {:
+                        Circulo circulo = new Circulo(a, b, c, d, e);
+                        Formas formas = new Formas();
+                        formas.crearCirculo(circulo);
+                        System.out.println("Circulo creado: " + a + ", " + b + ", " + c + ", " + d + ", " + e);
+                    :};
+
+SQUARE ::= GRAFICAR CUADRADO PAR1 ID COMA NUM COMA NUM COMA NUM COMA COLOR PAR2
+                    {: System.out.println("Cuadrado: "); :};
+
+RECTANGLE ::= GRAFICAR RECTANGULO PAR1 ID COMA NUM COMA NUM COMA NUM COMA NUM COMA COLOR PAR2
+                    {: System.out.println("Rectangulo: "); :};
+
+LINE ::= GRAFICAR LINEA PAR1 ID COMA NUM COMA NUM COMA NUM COMA NUM COMA COLOR PAR2
+                    {: System.out.println("Linea: "); :};
+    
+POLYGON ::= GRAFICAR POLIGONO PAR1 ID COMA NUM COMA NUM COMA NUM COMA NUM COMA NUM COMA COLOR PAR2
+                    {: System.out.println("Linea: "); :};
+
+ANIME ::= ANIMAR OBJETO ANTERIOR PAR1 CURVA COMA NUM COMA NUM COMA NUM PAR2
+                    {: System.out.println("ANIMAR: "); :};

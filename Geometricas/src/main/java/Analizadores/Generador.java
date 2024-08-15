@@ -1,4 +1,4 @@
-package Analizadores;
+    package Analizadores;
 
 public class Generador {
     public static void main(String[] args) {
@@ -12,6 +12,7 @@ public class Generador {
             String Flex[] = {ruta + "lexico.jflex", "-d", ruta};
             jflex.Main.generate(Flex);
             
+            System.out.println("##########################################################################");
             String Cup[] = { "-destdir", ruta, "-parser", "parser", ruta + "sintactico.cup" };
             java_cup.Main.main(Cup);
             
