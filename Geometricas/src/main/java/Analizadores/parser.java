@@ -162,9 +162,11 @@ public class parser extends java_cup.runtime.lr_parser {
 
 
 
+    private Formas formas;
     scanner s;
-    public parser(scanner s) {
+    public parser(scanner s, Formas formas) {
         this.s = s;
+        this.formas = formas;
     }
     
     public void syntax_error(Symbol s) {
@@ -177,6 +179,13 @@ public class parser extends java_cup.runtime.lr_parser {
         System.out.println("Error Sintactico no recuperable en la linea " +
         (s.left) + " y columna " + (s.right) +
         ". No se esperaba el componente: " + (s.value) + ".");
+    }
+
+    public void setFormas(Formas formas){
+        this.formas = formas;
+    }
+    public Formas getFormas(){
+        return this.formas;
     }
 
 
@@ -305,7 +314,6 @@ class CUP$parser$actions {
 		String e = (String)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
 		
                         Circulo circulo = new Circulo(a, b, c, d, e);
-                        Formas formas = new Formas();
                         formas.crearCirculo(circulo);
                         System.out.println("Circulo creado: " + a + ", " + b + ", " + c + ", " + d + ", " + e);
                     

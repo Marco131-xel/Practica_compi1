@@ -3,6 +3,7 @@ package main;
 import Analizadores.*;
 import archivos.*;
 import figuras.Formas;
+import java.awt.BorderLayout;
 import java.io.File;
 import java.io.Reader;
 import java.io.StringReader;
@@ -13,8 +14,8 @@ public class Interfaz extends javax.swing.JFrame {
     JFileChooser seleccionado = new JFileChooser();
     File archivo;
     GestionArchivos gestion = new GestionArchivos();
-    Formas objeto = new Formas();
-    JFrame ventana = new JFrame("Formas Básicas");
+    //Formas objeto = new Formas();
+    //JFrame ventana = new JFrame("Formas Básicas");
 
     /**
      * Creates new form Interfaz
@@ -143,13 +144,17 @@ public class Interfaz extends javax.swing.JFrame {
             Reader reader = new StringReader(codigo);
             scanner lexer = new scanner(reader);
             parser parser = new parser(lexer);
-
+            
+            Formas panel = new Formas();
+            parser.setFormas(panel);
             parser.parse();
-            ventana.add(objeto);
-            ventana.setSize(700, 700);
-            ventana.setLocationRelativeTo(null);
-            ventana.setVisible(true);
-            ventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            
+            JFrame figura = new JFrame("Figura Generada");
+            figura.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            figura.setSize(700,700);
+            
+            figura.add(panel, BorderLayout.CENTER);
+            figura.setVisible(true);
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("Error en el analisis");
