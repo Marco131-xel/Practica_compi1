@@ -2,6 +2,7 @@ main/Interfaz$1.class
 main/Interfaz.class
 Analizadores/parser.class
 main/Interfaz$2.class
+figuras/Linea.class
 figuras/Circulo.class
 figuras/Formas.class
 Analizadores/scanner.class
@@ -10,6 +11,9 @@ Analizadores/Generador.class
 excepciones/Errores.class
 Analizadores/sym.class
 Analizadores/parser$CUP$parser$actions.class
+figuras/Cuadrado.class
 figuras/Test.class
+figuras/Rectangulo.class
 figuras/Token.class
+figuras/Poligono.class
 archivos/GestionArchivos.class

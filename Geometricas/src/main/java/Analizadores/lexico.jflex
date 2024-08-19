@@ -45,7 +45,7 @@ ANIMAR="animar"
 OBJETO="objeto"
 ANTERIOR="anterior"
 // COLORES
-COLOR="azul"|"rojo"|"amarillo"
+COLOR="azul"|"rojo"|"amarillo"|"verde"|"celeste"|"rosado"|"gris"|"naranja"|"negro"
 // SIMBOLOS DEL SISTEMA
 ID=[a-zA-z][a-zA-Z0-9_]*
 NUM=[0-9]+
@@ -77,7 +77,7 @@ DIVISION="/"
 <YYINITIAL> {COLOR} {return new Symbol(sym.COLOR, yyline, yycolumn, yytext());}
 
 <YYINITIAL> {ID} {return new Symbol(sym.ID, yyline, yycolumn,yytext());}
-<YYINITIAL> {NUM} {return new Symbol(sym.NUM, yyline, yycolumn, yytext());}
+<YYINITIAL> {NUM} {return new Symbol(sym.NUM, yyline, yycolumn, Integer.parseInt(yytext()));}
 
 <YYINITIAL> {PAR1} {return new Symbol(sym.PAR1, yyline, yycolumn, yytext());}
 <YYINITIAL> {PAR2} {return new Symbol(sym.PAR2, yyline, yycolumn, yytext());}

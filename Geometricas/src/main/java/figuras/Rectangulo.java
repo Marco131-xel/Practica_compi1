@@ -1,17 +1,20 @@
 package figuras;
 import java.awt.Color;
 
-public class Circulo {
-
+public class Rectangulo {
     String nombre;
-    int posx, posy, radio;
+    int posx;
+    int posy;
+    int ancho;
+    int alto;
     Color color;
 
-    public Circulo(String nombre, int posx, int posy, int radio, Color color) {
+    public Rectangulo(String nombre, int posx, int posy, int ancho, int alto, Color color) {
         this.nombre = nombre;
         this.posx = posx;
         this.posy = posy;
-        this.radio = radio;
+        this.ancho = ancho;
+        this.alto = alto;
         this.color = color;
     }
 
@@ -39,12 +42,20 @@ public class Circulo {
         this.posy = posy;
     }
 
-    public int getRadio() {
-        return radio;
+    public int getAncho() {
+        return ancho;
     }
 
-    public void setRadio(int radio) {
-        this.radio = radio;
+    public void setAncho(int ancho) {
+        this.ancho = ancho;
+    }
+
+    public int getAlto() {
+        return alto;
+    }
+
+    public void setAlto(int alto) {
+        this.alto = alto;
     }
 
     public Color getColor() {

@@ -9,10 +9,11 @@ public class Generador {
         try{
             String ruta = "src/main/java/Analizadores/";
             
+            System.out.println("\t********** ANALIZADOR LEXICO **********");
             String Flex[] = {ruta + "lexico.jflex", "-d", ruta};
             jflex.Main.generate(Flex);
             
-            System.out.println("##########################################################################");
+            System.out.println("\t********** ANALIZADOR SINTACTICO **********");
             String Cup[] = { "-destdir", ruta, "-parser", "parser", ruta + "sintactico.cup" };
             java_cup.Main.main(Cup);
             
