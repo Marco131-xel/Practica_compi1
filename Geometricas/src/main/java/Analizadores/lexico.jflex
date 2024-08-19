@@ -49,6 +49,7 @@ COLOR="azul"|"rojo"|"amarillo"|"verde"|"celeste"|"rosado"|"gris"|"naranja"|"negr
 // SIMBOLOS DEL SISTEMA
 ID=[a-zA-z][a-zA-Z0-9_]*
 NUM=[0-9]+
+DECIMAL=[0-9]+\.[0-9]+
 BLANCOS=[\ \r\t\f\n]+
 // SIGNOS
 PAR1="("
@@ -78,6 +79,7 @@ DIVISION="/"
 
 <YYINITIAL> {ID} {return new Symbol(sym.ID, yyline, yycolumn,yytext());}
 <YYINITIAL> {NUM} {return new Symbol(sym.NUM, yyline, yycolumn, Integer.parseInt(yytext()));}
+<YYINITIAL> {DECIMAL}  { return new Symbol(sym.DECIMAL, yyline, yycolumn, Double.parseDouble(yytext())); }
 
 <YYINITIAL> {PAR1} {return new Symbol(sym.PAR1, yyline, yycolumn, yytext());}
 <YYINITIAL> {PAR2} {return new Symbol(sym.PAR2, yyline, yycolumn, yytext());}

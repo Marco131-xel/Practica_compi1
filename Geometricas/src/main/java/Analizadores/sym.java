@@ -9,12 +9,13 @@ package Analizadores;
 public class sym {
   /* terminals */
   public static final int LINEA = 11;
+  public static final int DECIMAL = 22;
   public static final int DIVISION = 19;
   public static final int SUMA = 16;
   public static final int MULTI = 18;
   public static final int CURVA = 4;
   public static final int ANIMAR = 5;
-  public static final int COLOR = 22;
+  public static final int COLOR = 23;
   public static final int CUADRADO = 9;
   public static final int OBJETO = 6;
   public static final int ID = 20;
@@ -54,6 +55,7 @@ public class sym {
   "DIVISION",
   "ID",
   "NUM",
+  "DECIMAL",
   "COLOR"
   };
 }
