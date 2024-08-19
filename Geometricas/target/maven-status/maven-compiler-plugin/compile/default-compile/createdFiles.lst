@@ -8,12 +8,14 @@ figuras/Formas.class
 Analizadores/scanner.class
 main/Interfaz$3.class
 Analizadores/Generador.class
+main/Interfaz$4.class
 excepciones/Errores.class
 Analizadores/sym.class
 Analizadores/parser$CUP$parser$actions.class
 figuras/Cuadrado.class
+main/Reportes.class
 figuras/Test.class
 figuras/Rectangulo.class
-figuras/Token.class
+main/Interfaz$5.class
 figuras/Poligono.class
 archivos/GestionArchivos.class

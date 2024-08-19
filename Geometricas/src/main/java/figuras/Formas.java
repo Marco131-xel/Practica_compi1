@@ -99,4 +99,24 @@ public class Formas extends JPanel {
             g.fillPolygon(poligono);
         }
     }
+
+    public int getCantidadCirculos() {
+        return circulos.size();
+    }
+
+    public int getCantidadCuadrados() {
+        return cuadrados.size();
+    }
+
+    public int getCantidadLineas() {
+        return lineas.size();
+    }
+
+    public int getCantidadRectangulos() {
+        return rectangulos.size();
+    }
+
+    public int getCantidadPoligonos() {
+        return poligonos.size();
+    }
 }

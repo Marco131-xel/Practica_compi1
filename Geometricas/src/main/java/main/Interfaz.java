@@ -14,8 +14,6 @@ public class Interfaz extends javax.swing.JFrame {
     JFileChooser seleccionado = new JFileChooser();
     File archivo;
     GestionArchivos gestion = new GestionArchivos();
-    //Formas objeto = new Formas();
-    //JFrame ventana = new JFrame("Formas Básicas");
 
     /**
      * Creates new form Interfaz
@@ -35,8 +33,8 @@ public class Interfaz extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         BT_abrir = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        BT_guardar = new javax.swing.JButton();
+        BT_reportes = new javax.swing.JButton();
         BT_compilar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         text_editor = new javax.swing.JTextPane();
@@ -45,6 +43,7 @@ public class Interfaz extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
+        BT_limpiar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -57,9 +56,14 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setText("Guardar");
+        BT_guardar.setText("Guardar");
 
-        jButton3.setText("Reportes");
+        BT_reportes.setText("Reportes");
+        BT_reportes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BT_reportesActionPerformed(evt);
+            }
+        });
 
         BT_compilar.setText("Compilar");
         BT_compilar.addActionListener(new java.awt.event.ActionListener() {
@@ -100,6 +104,13 @@ public class Interfaz extends javax.swing.JFrame {
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("500");
 
+        BT_limpiar.setText("Limpiar");
+        BT_limpiar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BT_limpiarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -113,23 +124,21 @@ public class Interfaz extends javax.swing.JFrame {
                         .addGap(45, 45, 45)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 963, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel1))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 89, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(BT_compilar)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(jButton3)
-                                .addComponent(jButton2)
-                                .addComponent(BT_abrir)))
-                        .addGap(46, 46, 46))
+                            .addComponent(jLabel1)))
+                    .addComponent(jLabel2)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(VENTANA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jLabel3)))
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                        .addComponent(VENTANA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel3)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(BT_compilar)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(BT_reportes)
+                        .addComponent(BT_guardar)
+                        .addComponent(BT_abrir))
+                    .addComponent(BT_limpiar))
+                .addGap(46, 46, 46))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -153,11 +162,13 @@ public class Interfaz extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(BT_abrir)
                         .addGap(45, 45, 45)
-                        .addComponent(jButton2)
+                        .addComponent(BT_guardar)
                         .addGap(37, 37, 37)
-                        .addComponent(jButton3)
+                        .addComponent(BT_reportes)
                         .addGap(45, 45, 45)
                         .addComponent(BT_compilar)
+                        .addGap(47, 47, 47)
+                        .addComponent(BT_limpiar)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
 
@@ -216,6 +227,26 @@ public class Interfaz extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_BT_compilarActionPerformed
 
+    private void BT_limpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_limpiarActionPerformed
+        // TODO add your handling code here:
+        // LIMPIAR JTEXTAREA
+        text_editor.setText("");
+        // LIMPIAR EL JPANEL
+        VENTANA.removeAll();
+        VENTANA.repaint();
+    }//GEN-LAST:event_BT_limpiarActionPerformed
+
+    private void BT_reportesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_reportesActionPerformed
+        // TODO add your handling code here:
+        JFrame panel = new JFrame("Reportes");
+        Reportes reporte = new Reportes();
+        panel.add(reporte);
+        panel.setSize(1098,899);
+        panel.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        panel.setVisible(true);
+        
+    }//GEN-LAST:event_BT_reportesActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -254,9 +285,10 @@ public class Interfaz extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BT_abrir;
     private javax.swing.JButton BT_compilar;
+    private javax.swing.JButton BT_guardar;
+    private javax.swing.JButton BT_limpiar;
+    private javax.swing.JButton BT_reportes;
     private javax.swing.JPanel VENTANA;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
