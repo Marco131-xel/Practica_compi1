@@ -93,6 +93,10 @@ public class Reportes extends javax.swing.JPanel {
         }
 
         List<Operacion> operaciones = parser.getOperacion();
+        if (operaciones == null) {
+            System.out.println("No se han registrado operaciones.");
+            return;
+        }
 
         // Contar cantidad de veces que se usa un operador
         Map<String, Integer> contaOperador = new HashMap<>();
@@ -105,10 +109,14 @@ public class Reportes extends javax.swing.JPanel {
             String operador = operacion.getOperador();
             int linea = operacion.getLinea();
             int columna = operacion.getColumna();
-            int ocurrencias = contaOperador.get(operador);
+            String ocurrencias = operacion.getExpresion();
 
             model3.addRow(new Object[]{operador, linea, columna, ocurrencias});
         }
+        for (Operacion op : parser.getOperacion()) {
+            System.out.println(op.getOperador() + " en línea " + op.getLinea() + ", columna " + op.getColumna());
+        }
+
     }
 
     private String obtenerColor(Color color) {

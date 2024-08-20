@@ -256,8 +256,8 @@ public class parser extends java_cup.runtime.lr_parser {
     public List<Operacion> getOperacion(){
         return operacion;
     }
-    public void registrarOperacion(String operador, int linea, int columna) {
-        operacion.add(new Operacion(operador, linea, columna));
+    public void registrarOperacion(String operador, int linea, int columna, String expresion) {
+        operacion.add(new Operacion(operador, linea, columna, expresion));
     }
 
 
@@ -635,7 +635,7 @@ class CUP$parser$actions {
 		int bleft = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).left;
 		int bright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
 		Integer b = (Integer)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
-		 RESULT = (int)(a + b); registrarOperacion("Suma", aleft, aright); 
+		 String expresion = a + " + " + b; RESULT = (int)(a + b); registrarOperacion("Suma", aleft, aright, expresion); 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("OPE",0, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -650,7 +650,7 @@ class CUP$parser$actions {
 		int bleft = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).left;
 		int bright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
 		Integer b = (Integer)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
-		 RESULT = (int)(a - b); registrarOperacion("Resta", aleft, aright); 
+		 String expresion = a + " - " + b; RESULT = (int)(a - b); registrarOperacion("Resta", aleft, aright, expresion); 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("OPE",0, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -665,7 +665,7 @@ class CUP$parser$actions {
 		int bleft = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).left;
 		int bright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
 		Integer b = (Integer)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
-		 RESULT = (int)(a * b); registrarOperacion("Multiplicacion", aleft, aright); 
+		 String expresion = a + " * " + b; RESULT = (int)(a * b); registrarOperacion("Multiplicacion", aleft, aright, expresion); 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("OPE",0, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -680,7 +680,7 @@ class CUP$parser$actions {
 		int bleft = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).left;
 		int bright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
 		Integer b = (Integer)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
-		 RESULT = (int)(a / b); registrarOperacion("Division", aleft, aright); 
+		 String expresion = a + " / " + b; RESULT = (int)(a / b); registrarOperacion("Division", aleft, aright, expresion); 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("OPE",0, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;

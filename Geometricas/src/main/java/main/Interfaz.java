@@ -242,7 +242,7 @@ public class Interfaz extends javax.swing.JFrame {
             Reader reader = new StringReader(codigo);
             scanner lexer = new scanner(reader);
             formas = new Formas();
-            parser parser = new parser(lexer, formas);
+            parser = new parser(lexer, formas);
             parser.parse();
 
             VENTANA.removeAll();

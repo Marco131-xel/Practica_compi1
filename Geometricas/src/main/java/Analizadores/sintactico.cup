@@ -47,8 +47,8 @@ parser code
     public List<Operacion> getOperacion(){
         return operacion;
     }
-    public void registrarOperacion(String operador, int linea, int columna) {
-        operacion.add(new Operacion(operador, linea, columna));
+    public void registrarOperacion(String operador, int linea, int columna, String expresion) {
+        operacion.add(new Operacion(operador, linea, columna, expresion));
     }
 :}
 
@@ -180,10 +180,10 @@ TIPOANIMACION ::= CURVA
                 | SIDE ;
 
 // OPERACIONES MATEMATICAS
-OPE ::= OPE:a SUMA OPE:b     {: RESULT = (int)(a + b); registrarOperacion("Suma", aleft, aright); :}
-      | OPE:a RESTA OPE:b    {: RESULT = (int)(a - b); registrarOperacion("Resta", aleft, aright); :}
-      | OPE:a MULTI OPE:b    {: RESULT = (int)(a * b); registrarOperacion("Multiplicacion", aleft, aright); :}
-      | OPE:a DIVISION OPE:b {: RESULT = (int)(a / b); registrarOperacion("Division", aleft, aright); :}
+OPE ::= OPE:a SUMA OPE:b     {: String expresion = a + " + " + b; RESULT = (int)(a + b); registrarOperacion("Suma", aleft, aright, expresion); :}
+      | OPE:a RESTA OPE:b    {: String expresion = a + " - " + b; RESULT = (int)(a - b); registrarOperacion("Resta", aleft, aright, expresion); :}
+      | OPE:a MULTI OPE:b    {: String expresion = a + " * " + b; RESULT = (int)(a * b); registrarOperacion("Multiplicacion", aleft, aright, expresion); :}
+      | OPE:a DIVISION OPE:b {: String expresion = a + " / " + b; RESULT = (int)(a / b); registrarOperacion("Division", aleft, aright, expresion); :}
       | NUM:a                  {: RESULT = a; :}
       | DECIMAL:a              {: RESULT = (int)Math.round(a); :}
       | PAR1 OPE:a PAR2      {: RESULT = a; :};

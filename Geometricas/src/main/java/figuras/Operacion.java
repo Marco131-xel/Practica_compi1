@@ -4,11 +4,13 @@ public class Operacion {
     String operador;
     int linea;
     int columna;
+    String expresion;
 
-    public Operacion(String operador, int linea, int columna) {
+    public Operacion(String operador, int linea, int columna, String expresion) {
         this.operador = operador;
         this.linea = linea;
         this.columna = columna;
+        this.expresion = expresion;
     }
 
     public String getOperador() {
@@ -33,5 +35,13 @@ public class Operacion {
 
     public void setColumna(int columna) {
         this.columna = columna;
+    }
+
+    public String getExpresion() {
+        return expresion;
+    }
+
+    public void setExpresion(String expresion) {
+        this.expresion = expresion;
     }
 }
