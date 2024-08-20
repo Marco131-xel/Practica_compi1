@@ -1,5 +1,6 @@
 package figuras;
 
+import animacion.Animar;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -183,6 +184,19 @@ public class Formas extends JPanel {
             int textY = centroidY + fm.getHeight() / 2;
             g2d.drawString(poligono.getNombre(), textX, textY);
         }
+    }
+
+    public void cambiar(Object figura, Animar animacion) {
+        if (figura instanceof Circulo) {
+            // Aplica la animación a un círculo
+            Circulo circulo = (Circulo) figura;
+            // Lógica para animar el círculo
+        } else if (figura instanceof Rectangulo) {
+            // Aplica la animación a un rectángulo
+            Rectangulo rectangulo = (Rectangulo) figura;
+            // Lógica para animar el rectángulo
+        }
+        // Agrega más verificaciones para otras figuras (Cuadrado, Linea, Poligono)
     }
 
     public List<Circulo> getCirculos() {

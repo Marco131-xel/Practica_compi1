@@ -28,5 +28,6 @@ Analizadores/parser$CUP$parser$actions.class
 figuras/Cuadrado.class
 figuras/Rectangulo.class
 figuras/Operacion.class
+animacion/Animar.class
 main/Interfaz$5.class
 figuras/Poligono.class

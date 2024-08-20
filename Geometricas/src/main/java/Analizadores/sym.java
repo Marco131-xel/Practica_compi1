@@ -8,39 +8,37 @@ package Analizadores;
 /** CUP generated class containing symbol constants. */
 public class sym {
   /* terminals */
-  public static final int LINEA = 11;
-  public static final int DECIMAL = 22;
-  public static final int DIVISION = 19;
-  public static final int SUMA = 16;
-  public static final int MULTI = 18;
-  public static final int CURVA = 4;
-  public static final int ANIMAR = 5;
-  public static final int COLOR = 23;
-  public static final int CUADRADO = 9;
-  public static final int OBJETO = 6;
-  public static final int ID = 20;
-  public static final int SIDE = 3;
-  public static final int NUM = 21;
+  public static final int LINEA = 10;
+  public static final int DECIMAL = 21;
+  public static final int DIVISION = 18;
+  public static final int SUMA = 15;
+  public static final int MULTI = 17;
+  public static final int ANIMAR = 3;
+  public static final int COLOR = 22;
+  public static final int CUADRADO = 8;
+  public static final int OBJETO = 4;
+  public static final int ID = 19;
+  public static final int NUM = 20;
   public static final int GRAFICAR = 2;
-  public static final int COMA = 15;
+  public static final int COMA = 14;
+  public static final int TIPOANIMACION = 6;
   public static final int EOF = 0;
   public static final int error = 1;
-  public static final int PAR2 = 14;
-  public static final int POLIGONO = 12;
-  public static final int PAR1 = 13;
-  public static final int CIRCULO = 8;
-  public static final int ANTERIOR = 7;
-  public static final int RECTANGULO = 10;
-  public static final int RESTA = 17;
+  public static final int PAR2 = 13;
+  public static final int POLIGONO = 11;
+  public static final int PAR1 = 12;
+  public static final int CIRCULO = 7;
+  public static final int ANTERIOR = 5;
+  public static final int RECTANGULO = 9;
+  public static final int RESTA = 16;
   public static final String[] terminalNames = new String[] {
   "EOF",
   "error",
   "GRAFICAR",
-  "SIDE",
-  "CURVA",
   "ANIMAR",
   "OBJETO",
   "ANTERIOR",
+  "TIPOANIMACION",
   "CIRCULO",
   "CUADRADO",
   "RECTANGULO",

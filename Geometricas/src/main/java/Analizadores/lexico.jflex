@@ -44,8 +44,7 @@ RECTANGULO="rectangulo"
 LINEA="linea"
 POLIGONO="POLIGONO"
 // ANIMACION
-SIDE="side"
-CURVA="curva"
+TIPOANIMACION="curva"|"line"
 ANIMAR="animar"
 OBJETO="objeto"
 ANTERIOR="anterior"
@@ -66,6 +65,11 @@ MULTI="*"
 DIVISION="/"
 
 %%
+<YYINITIAL> {ANIMAR} {return new Symbol(sym.ANIMAR, yyline, yycolumn, yytext());}
+<YYINITIAL> {OBJETO} {return new Symbol(sym.OBJETO, yyline, yycolumn, yytext());}
+<YYINITIAL> {ANTERIOR} {return new Symbol(sym.ANTERIOR, yyline, yycolumn, yytext());}
+<YYINITIAL> {TIPOANIMACION} {return new Symbol(sym.TIPOANIMACION, yyline, yycolumn, yytext());}
+
 
 <YYINITIAL> {GRAFICAR} {return new Symbol(sym.GRAFICAR, yyline, yycolumn, yytext());}
 <YYINITIAL> {CIRCULO} {return new Symbol(sym.CIRCULO, yyline, yycolumn, yytext());}
@@ -73,12 +77,6 @@ DIVISION="/"
 <YYINITIAL> {RECTANGULO} {return new Symbol(sym.RECTANGULO, yyline, yycolumn, yytext());}
 <YYINITIAL> {LINEA} {return new Symbol(sym.LINEA, yyline, yycolumn, yytext());}
 <YYINITIAL> {POLIGONO} {return new Symbol(sym.POLIGONO, yyline, yycolumn, yytext());}
-
-<YYINITIAL> {SIDE} {return new Symbol(sym.SIDE, yyline, yycolumn, yytext());}
-<YYINITIAL> {CURVA} {return new Symbol(sym.CURVA, yyline, yycolumn, yytext());}
-<YYINITIAL> {ANIMAR} {return new Symbol(sym.ANIMAR, yyline, yycolumn, yytext());}
-<YYINITIAL> {OBJETO} {return new Symbol(sym.OBJETO, yyline, yycolumn, yytext());}
-<YYINITIAL> {ANTERIOR} {return new Symbol(sym.ANTERIOR, yyline, yycolumn, yytext());}
 
 <YYINITIAL> {COLOR} {return new Symbol(sym.COLOR, yyline, yycolumn, yytext());}
 
