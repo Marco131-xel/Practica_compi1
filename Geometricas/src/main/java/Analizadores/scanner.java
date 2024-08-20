@@ -7,6 +7,7 @@ package Analizadores;
 // IMPORTACIONES
 import java_cup.runtime.Symbol;
 import java.util.LinkedList;
+import java.util.List;
 import excepciones.Errores;
 
 
@@ -307,7 +308,11 @@ public class scanner implements java_cup.runtime.Scanner {
   private boolean zzEOFDone;
 
   /* user code: */
-    public LinkedList<Errores> listaErrores = new LinkedList<>();    
+    public LinkedList<Errores> errores = new LinkedList<>();    
+
+    public LinkedList<Errores> getErrores() {
+        return errores;
+    }
 
 
   /**
@@ -318,7 +323,7 @@ public class scanner implements java_cup.runtime.Scanner {
   public scanner(java.io.Reader in) {
       yyline = 1;
     yycolumn =1;
-    listaErrores = new LinkedList<>();
+    errores = new LinkedList<>();
 
     this.zzReader = in;
   }
@@ -739,8 +744,8 @@ public class scanner implements java_cup.runtime.Scanner {
       else {
         switch (zzAction < 0 ? zzAction : ZZ_ACTION[zzAction]) {
           case 1:
-            { listaErrores.add(new Errores("LEXICO","El caracter "+
-                yytext() + " No pertenece al lenguaje ", yyline, yycolumn));
+            { System.out.println("Error léxico detectado: " + yytext() + " en línea " + yyline + " columna " + yycolumn);
+                errores.add(new Errores(yytext(), yyline, yycolumn, "Lexico","No pertenece al lenguaje"));
             }
           // fall through
           case 25: break;

@@ -2,12 +2,14 @@ package main;
 
 import Analizadores.*;
 import archivos.*;
+import excepciones.Errores;
 import figuras.Formas;
 import java.awt.BorderLayout;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.Reader;
 import java.io.StringReader;
+import java.util.LinkedList;
 import javax.swing.*;
 
 public class Interfaz extends javax.swing.JFrame {
@@ -18,13 +20,14 @@ public class Interfaz extends javax.swing.JFrame {
 
     private Formas formas;
     private parser parser;
+    private scanner scanner;
 
     /**
      * Creates new form Interfaz
      */
     public Interfaz() {
         formas = new Formas();
-        scanner scanner = new scanner(new BufferedReader(new StringReader("")));
+        scanner = new scanner(new BufferedReader(new StringReader("")));
         parser = new parser(scanner, formas);
         initComponents();
     }
@@ -52,6 +55,9 @@ public class Interfaz extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         BT_limpiar = new javax.swing.JButton();
         BT_guardarImage = new javax.swing.JButton();
+        BT_repoError = new javax.swing.JButton();
+        BT_zoomas = new javax.swing.JButton();
+        BT_zoomenos = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -131,6 +137,27 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
 
+        BT_repoError.setText("Reporte Errores");
+        BT_repoError.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BT_repoErrorActionPerformed(evt);
+            }
+        });
+
+        BT_zoomas.setText("Zoom +");
+        BT_zoomas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BT_zoomasActionPerformed(evt);
+            }
+        });
+
+        BT_zoomenos.setText("Zoom -");
+        BT_zoomenos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BT_zoomenosActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -139,7 +166,8 @@ public class Interfaz extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(BT_guardarImage))
+                        .addComponent(BT_guardarImage)
+                        .addGap(7, 7, 7))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(18, 18, 18)
                         .addComponent(jLabel4)
@@ -155,17 +183,22 @@ public class Interfaz extends javax.swing.JFrame {
                                 .addComponent(VENTANA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(jLabel3)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                 .addComponent(BT_guardarPDF)
                                 .addComponent(BT_abrir)
                                 .addComponent(BT_compilar)
-                                .addComponent(BT_limpiar))
+                                .addComponent(BT_limpiar)
+                                .addComponent(BT_repoError)
+                                .addComponent(BT_zoomas))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(25, 25, 25)
-                                .addComponent(BT_reportes)))))
-                .addGap(44, 44, 44))
+                                .addComponent(BT_reportes))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(54, 54, 54)
+                                .addComponent(BT_zoomenos)))))
+                .addGap(37, 37, 37))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -198,6 +231,12 @@ public class Interfaz extends javax.swing.JFrame {
                         .addComponent(BT_compilar)
                         .addGap(28, 28, 28)
                         .addComponent(BT_limpiar)
+                        .addGap(43, 43, 43)
+                        .addComponent(BT_repoError)
+                        .addGap(123, 123, 123)
+                        .addComponent(BT_zoomas)
+                        .addGap(18, 18, 18)
+                        .addComponent(BT_zoomenos)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
 
@@ -240,10 +279,20 @@ public class Interfaz extends javax.swing.JFrame {
             }
 
             Reader reader = new StringReader(codigo);
-            scanner lexer = new scanner(reader);
+            scanner = new scanner(reader);
             formas = new Formas();
-            parser = new parser(lexer, formas);
+            parser = new parser(scanner, formas);
             parser.parse();
+
+            LinkedList<Errores> listaErrores = new LinkedList<>();
+
+            listaErrores.addAll(scanner.errores);
+            listaErrores.addAll(parser.errores);
+
+            // Mostrar mensaje si hay errores
+            if (!listaErrores.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Se detectaron errores durante la compilación.", "Errores detectados", JOptionPane.WARNING_MESSAGE);
+            }
 
             VENTANA.removeAll();
             VENTANA.setLayout(new BorderLayout());
@@ -267,13 +316,28 @@ public class Interfaz extends javax.swing.JFrame {
 
     private void BT_reportesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_reportesActionPerformed
         // TODO add your handling code here:
-        JFrame panel = new JFrame("Reportes");
-        Reportes reporte = new Reportes(formas, parser);
-        panel.add(reporte);
-        panel.setSize(1098, 899);
-        panel.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        panel.setVisible(true);
+        String codigo = text_editor.getText();
+        if (codigo.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "No hay código para crear Reportes.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
 
+        LinkedList<Errores> listaErrores = new LinkedList<>();
+
+        listaErrores.addAll(scanner.errores);
+        listaErrores.addAll(parser.errores);
+
+        // Mostrar mensaje si hay errores
+        if (!listaErrores.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Se detectaron errores durante la compilación.", "Errores detectados", JOptionPane.WARNING_MESSAGE);
+        } else {
+            JFrame panel = new JFrame("Reportes");
+            Reportes reporte = new Reportes(formas, parser);
+            panel.add(reporte);
+            panel.setSize(1100, 600);
+            panel.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            panel.setVisible(true);
+        }
     }//GEN-LAST:event_BT_reportesActionPerformed
 
     private void BT_guardarPDFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_guardarPDFActionPerformed
@@ -285,6 +349,29 @@ public class Interfaz extends javax.swing.JFrame {
         // TODO add your handling code here:
         Expo_imagen.exportarPanelComoPNG(VENTANA);
     }//GEN-LAST:event_BT_guardarImageActionPerformed
+
+    private void BT_repoErrorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_repoErrorActionPerformed
+        // TODO add your handling code here:
+        JFrame panel = new JFrame("Reportes de Errores");
+        LinkedList<Errores> listaErrores = new LinkedList<>();
+
+        listaErrores.addAll(scanner.errores);
+        listaErrores.addAll(parser.errores);
+
+        Repoerrores repoerrores = new Repoerrores(listaErrores);
+        panel.add(repoerrores);
+        panel.setSize(900, 400);
+        panel.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        panel.setVisible(true);
+    }//GEN-LAST:event_BT_repoErrorActionPerformed
+
+    private void BT_zoomasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_zoomasActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_BT_zoomasActionPerformed
+
+    private void BT_zoomenosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_zoomenosActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_BT_zoomenosActionPerformed
 
     /**
      * @param args the command line arguments
@@ -327,7 +414,10 @@ public class Interfaz extends javax.swing.JFrame {
     private javax.swing.JButton BT_guardarImage;
     private javax.swing.JButton BT_guardarPDF;
     private javax.swing.JButton BT_limpiar;
+    private javax.swing.JButton BT_repoError;
     private javax.swing.JButton BT_reportes;
+    private javax.swing.JButton BT_zoomas;
+    private javax.swing.JButton BT_zoomenos;
     private javax.swing.JPanel VENTANA;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

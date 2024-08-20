@@ -7,8 +7,10 @@ package Analizadores;
 
 import java_cup.runtime.Symbol;
 import figuras.*;
+import excepciones.Errores;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java_cup.runtime.XMLElement;
 
@@ -225,22 +227,31 @@ public class parser extends java_cup.runtime.lr_parser {
     private Formas formas;
     scanner s;
     public List<Operacion> operacion = new ArrayList<>();
+    public LinkedList<Errores> errores = new LinkedList<>();
 
     public parser(scanner s, Formas formas) {
         this.s = s;
         this.formas = formas;
     }
     
+    @Override
     public void syntax_error(Symbol s) {
-        System.out.println("Error Sintactico en la linea " +
-        (s.left) + " y columna " + (s.right) +
-        ". No se esperaba el componente: " + (s.value) + ".");
+        if (errores.stream().noneMatch(e -> e.getLexema().equals(s.value) && e.getLinea() == s.left && e.getColumna() == s.right)) {
+            errores.add(new Errores((String) s.value, s.left, s.right, "Sintáctico", "Error sintáctico no esperado."));
+            System.out.println("Error Sintactico en la linea " + (s.left) + " y columna " + (s.right) + ". No se esperaba el componente: " + (s.value) + ".");
+        }
     }
 
+    @Override
     public void unrecovered_syntax_error(Symbol s) {
-        System.out.println("Error Sintactico no recuperable en la linea " +
-        (s.left) + " y columna " + (s.right) +
-        ". No se esperaba el componente: " + (s.value) + ".");
+        if (errores.stream().noneMatch(e -> e.getLexema().equals(s.value) && e.getLinea() == s.left && e.getColumna() == s.right)) {
+            errores.add(new Errores((String) s.value, s.left, s.right, "Sintáctico", "Error sintáctico no recuperable."));
+            System.out.println("Error Sintactico no recuperable en la linea " + (s.left) + " y columna " + (s.right) + ". No se esperaba el componente: " + (s.value) + ".");
+        }
+    }
+
+    public LinkedList<Errores> getErrores() {
+        return errores;
     }
 
     public void setFormas(Formas formas){
