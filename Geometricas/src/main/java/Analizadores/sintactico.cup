@@ -6,12 +6,17 @@ package Analizadores;
 import java_cup.runtime.Symbol;
 import figuras.*;
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
+
 
 // PARSER
 parser code
 {:
     private Formas formas;
     scanner s;
+    public List<Operacion> operacion = new ArrayList<>();
+
     public parser(scanner s, Formas formas) {
         this.s = s;
         this.formas = formas;
@@ -38,6 +43,13 @@ parser code
     public java_cup.runtime.Scanner getScanner(){
         return s;
     }
+
+    public List<Operacion> getOperacion(){
+        return operacion;
+    }
+    public void registrarOperacion(String operador, int linea, int columna) {
+        operacion.add(new Operacion(operador, linea, columna));
+    }
 :}
 
 action code
@@ -57,6 +69,7 @@ terminal String COLOR;
 nonterminal Integer OPE;
 nonterminal INICIO, INSTRUCCION, INSTRUCCIONES;
 nonterminal SHAPE, ANIME;
+nonterminal TIPOANIMACION;
 nonterminal CIRCLE, RECTANGLE, SQUARE, LINE, POLYGON;
 
 precedence left SUMA, RESTA;
@@ -160,14 +173,17 @@ POLYGON ::= GRAFICAR POLIGONO PAR1 ID:a COMA OPE:b COMA OPE:c COMA OPE:d COMA OP
                         System.out.println("Poligono creado: " + id + ", " + num1 + ", " + num2 + ", " + num3 + ", " + num4 + ", " + num5 + ", " + colstr); 
                     :};
 
-ANIME ::= ANIMAR OBJETO ANTERIOR PAR1 CURVA COMA OPE:b COMA OPE:c COMA OPE:d PAR2
+ANIME ::= ANIMAR OBJETO ANTERIOR PAR1 TIPOANIMACION COMA OPE:b COMA OPE:c COMA OPE:d PAR2
                     {: System.out.println("ANIMAR: "); :};
 
+TIPOANIMACION ::= CURVA 
+                | SIDE ;
+
 // OPERACIONES MATEMATICAS
-OPE ::= OPE:a SUMA OPE:b     {: RESULT = (int)(a + b); :}
-      | OPE:a RESTA OPE:b    {: RESULT = (int)(a - b); :}
-      | OPE:a MULTI OPE:b    {: RESULT = (int)(a * b); :}
-      | OPE:a DIVISION OPE:b {: RESULT = (int)(a / b); :}
+OPE ::= OPE:a SUMA OPE:b     {: RESULT = (int)(a + b); registrarOperacion("Suma", aleft, aright); :}
+      | OPE:a RESTA OPE:b    {: RESULT = (int)(a - b); registrarOperacion("Resta", aleft, aright); :}
+      | OPE:a MULTI OPE:b    {: RESULT = (int)(a * b); registrarOperacion("Multiplicacion", aleft, aright); :}
+      | OPE:a DIVISION OPE:b {: RESULT = (int)(a / b); registrarOperacion("Division", aleft, aright); :}
       | NUM:a                  {: RESULT = a; :}
       | DECIMAL:a              {: RESULT = (int)Math.round(a); :}
       | PAR1 OPE:a PAR2      {: RESULT = a; :};

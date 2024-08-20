@@ -1,6 +1,9 @@
 package main;
 
-import figuras.Formas;
+import figuras.*;
+import Analizadores.*;
+import java.awt.Color;
+import java.util.*;
 import javax.swing.table.DefaultTableModel;
 
 public class Reportes extends javax.swing.JPanel {
@@ -8,26 +11,138 @@ public class Reportes extends javax.swing.JPanel {
     /**
      * Creates new form Reportes
      */
-    public Reportes() {
-        initComponents();
-    }
-    
-    public Reportes(Formas formas){
+    public Reportes(Formas formas, parser parser) {
         this.formas = formas;
+        this.parser = parser;
+        initComponents();
         llenarTabla();
     }
 
     public Formas formas;
+    public parser parser;
 
     public void llenarTabla() {
+        tablaObjetos();
+        tablaColores();
+        tablaOcurrencias();
+    }
+
+    public void tablaObjetos() {
         DefaultTableModel model = (DefaultTableModel) TB_objeto.getModel();
         model.setRowCount(0);
-        
-        model.addRow(new Object[]{"Circulo", formas.getCantidadCirculos()});
-        model.addRow(new Object[]{"Cuadrado", formas.getCantidadCuadrados()});
-        model.addRow(new Object[]{"Linea", formas.getCantidadLineas()});
-        model.addRow(new Object[]{"Rectangulo", formas.getCantidadRectangulos()});
-        model.addRow(new Object[]{"Poligono", formas.getCantidadPoligonos()});
+
+        model.addRow(new Object[]{"Círculos", formas.getCirculos().size()});
+        model.addRow(new Object[]{"Cuadrados", formas.getCuadrados().size()});
+        model.addRow(new Object[]{"Líneas", formas.getLineas().size()});
+        model.addRow(new Object[]{"Rectángulos", formas.getRectangulos().size()});
+        model.addRow(new Object[]{"Polígonos", formas.getPoligonos().size()});
+    }
+
+    public void tablaColores() {
+        DefaultTableModel model2 = (DefaultTableModel) TB_colores.getModel();
+        model2.setRowCount(0);
+
+        Map<String, Integer> colorCounts = new HashMap<>();
+
+        // Colores de circulo
+        for (Circulo circulo : formas.getCirculos()) {
+            String colorName = obtenerColor(circulo.getColor());
+            colorCounts.merge(colorName, 1, Integer::sum);
+        }
+        // Colores de cuadrados
+        for (Cuadrado cuadrado : formas.getCuadrados()) {
+            String colorName = obtenerColor(cuadrado.getColor());
+            colorCounts.merge(colorName, 1, Integer::sum);
+        }
+
+        // Colores de lineas
+        for (Linea linea : formas.getLineas()) {
+            String colorName = obtenerColor(linea.getColor());
+            colorCounts.merge(colorName, 1, Integer::sum);
+        }
+
+        // Colores de rectangulos
+        for (Rectangulo rectangulo : formas.getRectangulos()) {
+            String colorName = obtenerColor(rectangulo.getColor());
+            colorCounts.merge(colorName, 1, Integer::sum);
+        }
+
+        // Colores de poligonos
+        for (Poligono poligono : formas.getPoligonos()) {
+            String colorName = obtenerColor(poligono.getColor());
+            colorCounts.merge(colorName, 1, Integer::sum);
+        }
+
+        // Ordenar los colores por cantidad de uso de mayor a menor
+        List<Map.Entry<String, Integer>> sortedColors = new ArrayList<>(colorCounts.entrySet());
+        sortedColors.sort((e1, e2) -> e2.getValue().compareTo(e1.getValue()));
+
+        // Llenar la tabla 
+        for (Map.Entry<String, Integer> entry : sortedColors) {
+            model2.addRow(new Object[]{entry.getKey(), entry.getValue()});
+        }
+    }
+
+    public void tablaOcurrencias() {
+        DefaultTableModel model3 = (DefaultTableModel) TB_ocurrencias.getModel();
+        model3.setRowCount(0);
+
+        if (parser == null) {
+            System.out.println("Parser es nulo. Verifica que se haya inicializado correctamente.");
+            return;
+        }
+
+        List<Operacion> operaciones = parser.getOperacion();
+
+        // Contar cantidad de veces que se usa un operador
+        Map<String, Integer> contaOperador = new HashMap<>();
+        for (Operacion operacion : operaciones) {
+            contaOperador.merge(operacion.getOperador(), 1, Integer::sum);
+        }
+
+        // Llenar tabla con los operadores
+        for (Operacion operacion : operaciones) {
+            String operador = operacion.getOperador();
+            int linea = operacion.getLinea();
+            int columna = operacion.getColumna();
+            int ocurrencias = contaOperador.get(operador);
+
+            model3.addRow(new Object[]{operador, linea, columna, ocurrencias});
+        }
+    }
+
+    private String obtenerColor(Color color) {
+        if (color.equals(Color.RED)) {
+            return "rojo";
+        }
+        if (color.equals(Color.YELLOW)) {
+            return "amarillo";
+        }
+        if (color.equals(Color.BLUE)) {
+            return "azul";
+        }
+        if (color.equals(Color.GREEN)) {
+            return "verde";
+        }
+        if (color.equals(Color.CYAN)) {
+            return "celeste";
+        }
+        if (color.equals(Color.MAGENTA)) {
+            return "rosado";
+        }
+        if (color.equals(Color.GRAY)) {
+            return "gris";
+        }
+        if (color.equals(Color.ORANGE)) {
+            return "naranja";
+        }
+        if (color.equals(Color.BLACK)) {
+            return "negro";
+        }
+        if (color.equals(Color.WHITE)) {
+            return "Blanco";
+        }
+        return "Desconocido";
     }
 
     /**

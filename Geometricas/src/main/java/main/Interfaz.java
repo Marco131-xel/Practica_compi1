@@ -4,6 +4,7 @@ import Analizadores.*;
 import archivos.*;
 import figuras.Formas;
 import java.awt.BorderLayout;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.Reader;
 import java.io.StringReader;
@@ -15,10 +16,16 @@ public class Interfaz extends javax.swing.JFrame {
     File archivo;
     GestionArchivos gestion = new GestionArchivos();
 
+    private Formas formas;
+    private parser parser;
+
     /**
      * Creates new form Interfaz
      */
     public Interfaz() {
+        formas = new Formas();
+        scanner scanner = new scanner(new BufferedReader(new StringReader("")));
+        parser = new parser(scanner, formas);
         initComponents();
     }
 
@@ -33,7 +40,7 @@ public class Interfaz extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         BT_abrir = new javax.swing.JButton();
-        BT_guardar = new javax.swing.JButton();
+        BT_guardarPDF = new javax.swing.JButton();
         BT_reportes = new javax.swing.JButton();
         BT_compilar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -44,6 +51,7 @@ public class Interfaz extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         BT_limpiar = new javax.swing.JButton();
+        BT_guardarImage = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -56,7 +64,12 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
 
-        BT_guardar.setText("Guardar");
+        BT_guardarPDF.setText("Guardar PDF");
+        BT_guardarPDF.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BT_guardarPDFActionPerformed(evt);
+            }
+        });
 
         BT_reportes.setText("Reportes");
         BT_reportes.addActionListener(new java.awt.event.ActionListener() {
@@ -111,34 +124,48 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
 
+        BT_guardarImage.setText("Guardar png");
+        BT_guardarImage.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BT_guardarImageActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(18, 18, 18)
-                .addComponent(jLabel4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(45, 45, 45)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 963, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel1)))
-                    .addComponent(jLabel2)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(BT_guardarImage))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(VENTANA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jLabel3)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(BT_compilar)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(BT_reportes)
-                        .addComponent(BT_guardar)
-                        .addComponent(BT_abrir))
-                    .addComponent(BT_limpiar))
-                .addGap(46, 46, 46))
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(45, 45, 45)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 963, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel1)))
+                            .addComponent(jLabel2)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(VENTANA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel3)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(BT_guardarPDF)
+                                .addComponent(BT_abrir)
+                                .addComponent(BT_compilar)
+                                .addComponent(BT_limpiar))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(25, 25, 25)
+                                .addComponent(BT_reportes)))))
+                .addGap(44, 44, 44))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -162,12 +189,14 @@ public class Interfaz extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(BT_abrir)
                         .addGap(45, 45, 45)
-                        .addComponent(BT_guardar)
-                        .addGap(37, 37, 37)
+                        .addComponent(BT_guardarPDF)
+                        .addGap(50, 50, 50)
+                        .addComponent(BT_guardarImage)
+                        .addGap(44, 44, 44)
                         .addComponent(BT_reportes)
-                        .addGap(45, 45, 45)
+                        .addGap(28, 28, 28)
                         .addComponent(BT_compilar)
-                        .addGap(47, 47, 47)
+                        .addGap(28, 28, 28)
                         .addComponent(BT_limpiar)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
@@ -212,13 +241,13 @@ public class Interfaz extends javax.swing.JFrame {
 
             Reader reader = new StringReader(codigo);
             scanner lexer = new scanner(reader);
-            Formas panel = new Formas();
-            parser parser = new parser(lexer,panel);
+            formas = new Formas();
+            parser parser = new parser(lexer, formas);
             parser.parse();
-            
+
             VENTANA.removeAll();
             VENTANA.setLayout(new BorderLayout());
-            VENTANA.add(panel, BorderLayout.CENTER);    
+            VENTANA.add(formas, BorderLayout.CENTER);
             VENTANA.revalidate();
             VENTANA.repaint();
         } catch (Exception e) {
@@ -239,13 +268,23 @@ public class Interfaz extends javax.swing.JFrame {
     private void BT_reportesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_reportesActionPerformed
         // TODO add your handling code here:
         JFrame panel = new JFrame("Reportes");
-        Reportes reporte = new Reportes();
+        Reportes reporte = new Reportes(formas, parser);
         panel.add(reporte);
-        panel.setSize(1098,899);
+        panel.setSize(1098, 899);
         panel.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         panel.setVisible(true);
-        
+
     }//GEN-LAST:event_BT_reportesActionPerformed
+
+    private void BT_guardarPDFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_guardarPDFActionPerformed
+        // TODO add your handling code here:
+        Expo_PDF.exportarPanelComoPDF(VENTANA);
+    }//GEN-LAST:event_BT_guardarPDFActionPerformed
+
+    private void BT_guardarImageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_guardarImageActionPerformed
+        // TODO add your handling code here:
+        Expo_imagen.exportarPanelComoPNG(VENTANA);
+    }//GEN-LAST:event_BT_guardarImageActionPerformed
 
     /**
      * @param args the command line arguments
@@ -285,7 +324,8 @@ public class Interfaz extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BT_abrir;
     private javax.swing.JButton BT_compilar;
-    private javax.swing.JButton BT_guardar;
+    private javax.swing.JButton BT_guardarImage;
+    private javax.swing.JButton BT_guardarPDF;
     private javax.swing.JButton BT_limpiar;
     private javax.swing.JButton BT_reportes;
     private javax.swing.JPanel VENTANA;

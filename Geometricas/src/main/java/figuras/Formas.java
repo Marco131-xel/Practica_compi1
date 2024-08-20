@@ -68,7 +68,7 @@ public class Formas extends JPanel {
             py[i] = posy + (int) (alto * Math.sin(2 * Math.PI * i / cant_lados));
         }
 
-        Poligono poligono = new Poligono(px, py, cant_lados, color);
+        Poligono poligono = new Poligono(px, py, cant_lados, color, nombre);
         poligonos.add(poligono);
         repaint();
     }
@@ -76,47 +76,88 @@ public class Formas extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
+
         for (Circulo circulo : circulos) {
             g.setColor(circulo.getColor());
             g.fillOval(circulo.getPosx(), circulo.getPosy(), circulo.getRadio(), circulo.getRadio());
+            // Dibujar el nombre encima del círculo
+            g.setColor(Color.BLACK); // El color del texto
+            FontMetrics fm = g.getFontMetrics();
+            int textX = circulo.getPosx() + (circulo.getRadio() - fm.stringWidth(circulo.getNombre())) / 2;
+            int textY = circulo.getPosy() - fm.getHeight() / 2;
+            g.drawString(circulo.getNombre(), textX, textY);
         }
         for (Cuadrado cuadrado : cuadrados) {
             g.setColor(cuadrado.getColor());
             g.fillRect(cuadrado.getPosx(), cuadrado.posy, cuadrado.getLado(), cuadrado.getLado());
+            // Dibujar el nombre encima del cuadrado
+            g.setColor(Color.BLACK); // El color del texto
+            FontMetrics fm = g.getFontMetrics();
+            int textX = cuadrado.getPosx() + (cuadrado.getLado() - fm.stringWidth(cuadrado.getNombre())) / 2;
+            int textY = cuadrado.getPosy() - fm.getHeight() / 2;
+            g.drawString(cuadrado.getNombre(), textX, textY);
         }
 
         for (Linea linea : lineas) {
             g.setColor(linea.getColor());
             g.drawLine(linea.posx1, linea.posx2, linea.posy1, linea.posy2);
+            // Dibujar el nombre cerca de la línea (en el medio)
+            g.setColor(Color.BLACK); // El color del texto
+            FontMetrics fm = g.getFontMetrics();
+            int textX = (linea.getPosx1() + linea.getPosx2()) / 2 - fm.stringWidth(linea.getNombre()) / 2;
+            int textY = (linea.getPosy1() + linea.getPosy2()) / 2 - fm.getHeight() / 2;
+            g.drawString(linea.getNombre(), textX, textY);
         }
         for (Rectangulo rectangulo : rectangulos) {
             g.setColor(rectangulo.getColor());
             g.fillRect(rectangulo.posx, rectangulo.posy, rectangulo.ancho, rectangulo.alto);
+
+            // Dibujar el nombre encima del rectángulo
+            g.setColor(Color.BLACK); // El color del texto
+            FontMetrics fm = g.getFontMetrics();
+            int textX = rectangulo.getPosx() + (rectangulo.getAncho() - fm.stringWidth(rectangulo.getNombre())) / 2;
+            int textY = rectangulo.getPosy() - fm.getHeight() / 2;
+            g.drawString(rectangulo.getNombre(), textX, textY);
         }
 
         for (Poligono poligono : poligonos) {
             g.setColor(poligono.getColor());
             g.fillPolygon(poligono);
+            // Dibujar el nombre en el centro del polígono
+            g.setColor(Color.BLACK);
+            FontMetrics fm = g.getFontMetrics();
+            int centroidX = 0;
+            int centroidY = 0;
+            for (int i = 0; i < poligono.npoints; i++) {
+                centroidX += poligono.xpoints[i];
+                centroidY += poligono.ypoints[i];
+            }
+            centroidX /= poligono.npoints;
+            centroidY /= poligono.npoints;
+
+            int textX = centroidX - fm.stringWidth(poligono.getNombre()) / 2;
+            int textY = centroidY + fm.getHeight() / 2;
+            g.drawString(poligono.getNombre(), textX, textY);
         }
     }
 
-    public int getCantidadCirculos() {
-        return circulos.size();
+    public List<Circulo> getCirculos() {
+        return circulos;
     }
 
-    public int getCantidadCuadrados() {
-        return cuadrados.size();
+    public List<Cuadrado> getCuadrados() {
+        return cuadrados;
     }
 
-    public int getCantidadLineas() {
-        return lineas.size();
+    public List<Linea> getLineas() {
+        return lineas;
     }
 
-    public int getCantidadRectangulos() {
-        return rectangulos.size();
+    public List<Rectangulo> getRectangulos() {
+        return rectangulos;
     }
 
-    public int getCantidadPoligonos() {
-        return poligonos.size();
+    public List<Poligono> getPoligonos() {
+        return poligonos;
     }
 }
