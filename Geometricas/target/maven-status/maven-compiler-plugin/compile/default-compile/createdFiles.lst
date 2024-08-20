@@ -1,5 +1,6 @@
 main/Interfaz$1.class
 archivos/Expo_imagen.class
+figuras/Formas$2.class
 main/Interfaz$8.class
 figuras/Linea.class
 figuras/Circulo.class
@@ -22,6 +23,7 @@ Analizadores/parser.class
 main/Interfaz$2.class
 figuras/Formas.class
 Analizadores/scanner.class
+figuras/Formas$1.class
 Analizadores/parser$CUP$parser$actions.class
 figuras/Cuadrado.class
 figuras/Rectangulo.class

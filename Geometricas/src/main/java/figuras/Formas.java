@@ -2,6 +2,9 @@ package figuras;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +15,44 @@ public class Formas extends JPanel {
     private List<Linea> lineas = new ArrayList<>();
     private List<Rectangulo> rectangulos = new ArrayList<>();
     private List<Poligono> poligonos = new ArrayList<>();
+
+    private double zoomLevel = 1.0;
+    private Point lastPoint = null;
+    private Point viewOffset = new Point(0, 0);
+
+    public Formas() {
+        // Configurar el panel para manejar eventos del mouse
+        addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                lastPoint = e.getPoint(); // Guardar la posición inicial del mouse
+            }
+        });
+
+        addMouseMotionListener(new MouseMotionAdapter() {
+            @Override
+            public void mouseDragged(MouseEvent e) {
+                if (lastPoint != null) {
+                    // Calcular el desplazamiento
+                    Point currentPoint = e.getPoint();
+                    int dx = currentPoint.x - lastPoint.x;
+                    int dy = currentPoint.y - lastPoint.y;
+                    viewOffset.translate(dx, dy); // Actualizar el desplazamiento
+                    lastPoint = currentPoint; // Actualizar la última posición del mouse
+                    repaint(); // Redibujar el panel
+                }
+            }
+        });
+    }
+
+    public void setZoomLevel(double zoomLevel) {
+        this.zoomLevel = zoomLevel;
+        repaint();
+    }
+
+    public double getZoomLevel() {
+        return zoomLevel;
+    }
 
     // METODO PARA CONVERTIR COLORES
     public Color obtenerColor(String color) {
@@ -76,56 +117,59 @@ public class Formas extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
+        Graphics2D g2d = (Graphics2D) g;
+
+        // Aplicar el zoom
+        g2d.scale(zoomLevel, zoomLevel);
+        // Aplicar el desplazamiento
+        g2d.translate(viewOffset.x, viewOffset.y);
 
         for (Circulo circulo : circulos) {
-            g.setColor(circulo.getColor());
-            g.fillOval(circulo.getPosx(), circulo.getPosy(), circulo.getRadio(), circulo.getRadio());
+            g2d.setColor(circulo.getColor());
+            g2d.fillOval(circulo.getPosx(), circulo.getPosy(), circulo.getRadio(), circulo.getRadio());
             // Dibujar el nombre encima del círculo
-            g.setColor(Color.BLACK); // El color del texto
-            FontMetrics fm = g.getFontMetrics();
+            g2d.setColor(Color.BLACK);
+            FontMetrics fm = g2d.getFontMetrics();
             int textX = circulo.getPosx() + (circulo.getRadio() - fm.stringWidth(circulo.getNombre())) / 2;
             int textY = circulo.getPosy() - fm.getHeight() / 2;
-            g.drawString(circulo.getNombre(), textX, textY);
+            g2d.drawString(circulo.getNombre(), textX, textY);
         }
         for (Cuadrado cuadrado : cuadrados) {
-            g.setColor(cuadrado.getColor());
-            g.fillRect(cuadrado.getPosx(), cuadrado.posy, cuadrado.getLado(), cuadrado.getLado());
+            g2d.setColor(cuadrado.getColor());
+            g2d.fillRect(cuadrado.getPosx(), cuadrado.getPosy(), cuadrado.getLado(), cuadrado.getLado());
             // Dibujar el nombre encima del cuadrado
-            g.setColor(Color.BLACK); // El color del texto
-            FontMetrics fm = g.getFontMetrics();
+            g2d.setColor(Color.BLACK);
+            FontMetrics fm = g2d.getFontMetrics();
             int textX = cuadrado.getPosx() + (cuadrado.getLado() - fm.stringWidth(cuadrado.getNombre())) / 2;
             int textY = cuadrado.getPosy() - fm.getHeight() / 2;
-            g.drawString(cuadrado.getNombre(), textX, textY);
+            g2d.drawString(cuadrado.getNombre(), textX, textY);
         }
-
         for (Linea linea : lineas) {
-            g.setColor(linea.getColor());
-            g.drawLine(linea.posx1, linea.posx2, linea.posy1, linea.posy2);
-            // Dibujar el nombre cerca de la línea (en el medio)
-            g.setColor(Color.BLACK); // El color del texto
-            FontMetrics fm = g.getFontMetrics();
+            g2d.setColor(linea.getColor());
+            g2d.drawLine(linea.getPosx1(), linea.getPosy1(), linea.getPosx2(), linea.getPosy2());
+            // Dibujar el nombre cerca de la línea
+            g2d.setColor(Color.BLACK);
+            FontMetrics fm = g2d.getFontMetrics();
             int textX = (linea.getPosx1() + linea.getPosx2()) / 2 - fm.stringWidth(linea.getNombre()) / 2;
             int textY = (linea.getPosy1() + linea.getPosy2()) / 2 - fm.getHeight() / 2;
-            g.drawString(linea.getNombre(), textX, textY);
+            g2d.drawString(linea.getNombre(), textX, textY);
         }
         for (Rectangulo rectangulo : rectangulos) {
-            g.setColor(rectangulo.getColor());
-            g.fillRect(rectangulo.posx, rectangulo.posy, rectangulo.ancho, rectangulo.alto);
-
+            g2d.setColor(rectangulo.getColor());
+            g2d.fillRect(rectangulo.getPosx(), rectangulo.getPosy(), rectangulo.getAncho(), rectangulo.getAlto());
             // Dibujar el nombre encima del rectángulo
-            g.setColor(Color.BLACK); // El color del texto
-            FontMetrics fm = g.getFontMetrics();
+            g2d.setColor(Color.BLACK);
+            FontMetrics fm = g2d.getFontMetrics();
             int textX = rectangulo.getPosx() + (rectangulo.getAncho() - fm.stringWidth(rectangulo.getNombre())) / 2;
             int textY = rectangulo.getPosy() - fm.getHeight() / 2;
-            g.drawString(rectangulo.getNombre(), textX, textY);
+            g2d.drawString(rectangulo.getNombre(), textX, textY);
         }
-
         for (Poligono poligono : poligonos) {
-            g.setColor(poligono.getColor());
-            g.fillPolygon(poligono);
+            g2d.setColor(poligono.getColor());
+            g2d.fillPolygon(poligono);
             // Dibujar el nombre en el centro del polígono
-            g.setColor(Color.BLACK);
-            FontMetrics fm = g.getFontMetrics();
+            g2d.setColor(Color.BLACK);
+            FontMetrics fm = g2d.getFontMetrics();
             int centroidX = 0;
             int centroidY = 0;
             for (int i = 0; i < poligono.npoints; i++) {
@@ -137,7 +181,7 @@ public class Formas extends JPanel {
 
             int textX = centroidX - fm.stringWidth(poligono.getNombre()) / 2;
             int textY = centroidY + fm.getHeight() / 2;
-            g.drawString(poligono.getNombre(), textX, textY);
+            g2d.drawString(poligono.getNombre(), textX, textY);
         }
     }
 
